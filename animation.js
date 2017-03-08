@@ -28,7 +28,7 @@ var colorCircle = function( event ){
 }
 
 var resetCircle = function( event ){
-    svg.appendChild( makeCircle( 25, math.random() * ( height - 25) , math.random() * ( width - 25 ) ) );
+    svg.appendChild( makeCircle( 25, Math.random() * ( height - 25 ) , Math.random() * ( width - 25 ) ) );
     svg.removeChild( this );    
 }
 
