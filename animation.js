@@ -1,8 +1,8 @@
 svg = document.getElementById("svg");
 var fillStyle = '#cc99ff';
 var xmlns = "http://www.w3.org/2000/svg";
-var height = svg.getBoundingRect().height;
-var width = svg.getBoundingRect().width;
+var height = svg.getBoundingClientRect().height;
+var width = svg.getBoundingClientRect().width;
 
 var rid
 
@@ -28,8 +28,8 @@ var colorCircle = function( event ){
 }
 
 var resetCircle = function( event ){
-    svg.removeChild( this );
     svg.appendChild( makeCircle( 25, math.random() * ( height - 25) , math.random() * ( width - 25 ) ) );
+    svg.removeChild( this );    
 }
 
 svg.addEventListener("click", drawCircle );
