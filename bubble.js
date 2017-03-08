@@ -1,7 +1,8 @@
 svg = document.getElementById("svg");
 var fillStyle = '#cc99ff';
 var xmlns = "http://www.w3.org/2000/svg";
-var height 
+var height = svg.getBoundingRect().height;
+var width = svg.getBoundingRect().width;
 
 var rid
 
@@ -11,6 +12,7 @@ var makeCircle = function( r, x, y){
     c.setAttribute( "cy", y);
     c.setAttribute( "fill", fillStyle );
     c.setAttribute( "r", r );
+    c.addEventListener( "click", colorCircle );
     return c;
 }
 
@@ -27,7 +29,7 @@ var colorCircle = function( event ){
 
 var resetCircle = function( event ){
     svg.removeChild( this );
-    svg.appendChild( makeCircle( 25, , event.offsetY ) );
+    svg.appendChild( makeCircle( 25, math.random() * ( height - 25) , math.random() * ( width - 25 ) ) );
 }
 
 svg.addEventListener("click", drawCircle );
