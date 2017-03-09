@@ -14,6 +14,8 @@ var makeCircle = function( r, x, y){
     c.setAttribute( "cy", y);
     c.setAttribute( "fill", fillStyle );
     c.setAttribute( "r", r );
+    c.setAttribute("vx", 1);
+    c.setAttribute("vy", 1);    
     c.addEventListener( "click", colorCircle );
     return c;
 }
@@ -41,34 +43,38 @@ var moveCircles = function(event) {
     window.cancelAnimationFrame(rid);
 
     var animate = function(event) {
-        while (svg.lastChild) {
-            var circle = svg.lastChild;
+        var children = svg.children;
+        var length = children.length;
+        for (i = 0 ; i < length ; i++) {
+            var circle = children[i];
 
-            var vx = 1;
-            var vy = 1;
+            var vx = parseInt(circle.getAttribute("vx"));
+            var vy = parseInt(circle.getAttribute("vy"));
+            
+            console.log("<- watch this number grow");
     
-            var x = circle.getAttribute("cx");
-            var y = circle.getAttribute("cy");
+            var x = parseInt(circle.getAttribute("cx"));
+            var y = parseInt(circle.getAttribute("cy"));
 
             if( x <= 0 || x + 25 >= width ) {
+                circle.setAttribute("vx", vx * -1);
                 vx *= -1;
             }
 
             if( y <= 0 || y + 25 >= height ) {
+                circle.setAttribute("vy", vy * -1);
                 vy *= -1;
             }
 
             x += vx;
             y += vy;
-            circle.setAttribute( "x", x );
-            circle.setAttribute( "y", y );
+            circle.setAttribute( "cx", x );
+            circle.setAttribute( "cy", y );
 
-            rid = requestAnimationFrame(animate);
         }
-        window.cancelAnimationFrame(rid);
+        rid = requestAnimationFrame(animate);
     };
     animate();
-
 };
 
 svg.addEventListener("click", drawCircle );
