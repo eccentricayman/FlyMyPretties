@@ -35,9 +35,6 @@ var resetCircle = function( event ){
 }
 
 var moveCircles = function(event) {
-    var vx = 1;
-    var vy = 1;
-    
     var width = svg.getBoundingClientRect().width;
     var height = svg.getBoundingClientRect().height;
     
@@ -47,6 +44,9 @@ var moveCircles = function(event) {
         while (svg.lastChild) {
             var circle = svg.lastChild;
 
+            var vx = 1;
+            var vy = 1;
+    
             var x = circle.getAttribute("cx");
             var y = circle.getAttribute("cy");
 
