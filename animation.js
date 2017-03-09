@@ -1,10 +1,12 @@
-svg = document.getElementById("svg");
+var svg = document.getElementById("svg");
+var clearB = document.getElementById("clr");
+var moveB = document.getElementById("mv");
 var fillStyle = '#cc99ff';
 var xmlns = "http://www.w3.org/2000/svg";
 var height = svg.getBoundingClientRect().height;
 var width = svg.getBoundingClientRect().width;
 
-var rid
+var rid;
 
 var makeCircle = function( r, x, y){
     var c = document.createElementNS( xmlns, "circle" );    
@@ -32,6 +34,43 @@ var resetCircle = function( event ){
     svg.removeChild( this );    
 }
 
+var moveCircles = function(event) {
+    var vx = 1;
+    var vy = 1;
+    
+    var width = svg.getBoundingClientRect().width;
+    var height = svg.getBoundingClientRect().height;
+    
+    window.cancelAnimationFrame(rid);
+
+    var animate = function(event) {
+        while (svg.lastChild) {
+            var circle = svg.lastChild;
+
+            var x = circle.getAttribute("cx");
+            var y = circle.getAttribute("cy");
+
+            if( x <= 0 || x + 25 >= width ) {
+                vx *= -1;
+            }
+
+            if( y <= 0 || y + 25 >= height ) {
+                vy *= -1;
+            }
+
+            x += vx;
+            y += vy;
+            circle.setAttribute( "x", x );
+            circle.setAttribute( "y", y );
+
+            rid = requestAnimationFrame(animate);
+        }
+        window.cancelAnimationFrame(rid);
+    };
+    animate();
+
+};
+
 svg.addEventListener("click", drawCircle );
 
 var clearSVG = function(){
@@ -41,5 +80,5 @@ var clearSVG = function(){
     window.cancelAnimationFrame(rid);
 }
 
-var clear = document.getElementById("clr");
-clear.addEventListener("click", clearSVG );
+clearB.addEventListener("click", clearSVG );
+moveB.addEventListener("click", moveCircles);
