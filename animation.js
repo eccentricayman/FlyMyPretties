@@ -71,6 +71,20 @@ var moveCircles = function(event) {
             circle.setAttribute( "cx", x );
             circle.setAttribute( "cy", y );
 
+            if(x == (width / 2)) {
+                r = parseInt(circle.getAttribute("r") / 2);
+                if (r <= 5) {
+                    svg.removeChild(circle);
+                    i++;
+                }
+                else {
+                    var newCircle = makeCircle(r, x + vx, y + vy);
+                    newCircle.setAttribute("vx", vx * -1);
+                    newCircle.setAttribute("vy", vy * -1);
+                    circle.setAttribute("r", r );
+                    svg.appendChild(newCircle);
+                }
+            }
         }
         rid = requestAnimationFrame(animate);
     };
@@ -79,8 +93,8 @@ var moveCircles = function(event) {
 
 svg.addEventListener("click", drawCircle );
 
-var clearSVG = function(){
-    while( svg.lastChild ){
+var clearSVG = function() {
+    while( svg.lastChild ) {
         svg.removeChild( svg.lastChild );
     }
     window.cancelAnimationFrame(rid);
