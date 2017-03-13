@@ -45,8 +45,8 @@ var moveCircles = function(event) {
     var animate = function(event) {
         var children = svg.children;
         var length = children.length;
-        for (i = 0 ; i < length ; i++) {
-            var circle = children[i];
+        for (i = 0 ; i < svg.children.length; i++) {
+            var circle = svg.children[i];
 
             var vx = parseInt(circle.getAttribute("vx"));
             var vy = parseInt(circle.getAttribute("vy"));
@@ -55,13 +55,14 @@ var moveCircles = function(event) {
     
             var x = parseInt(circle.getAttribute("cx"));
             var y = parseInt(circle.getAttribute("cy"));
-
-            if( x <= 0 || x + 25 >= width ) {
+            var r = parseInt(circle.getAttribute("r"));
+            
+            if( x - r <= 0 || x + r >= width ) {
                 circle.setAttribute("vx", vx * -1);
                 vx *= -1;
             }
 
-            if( y <= 0 || y + 25 >= height ) {
+            if( y - r <= 0 || y + r >= height ) {
                 circle.setAttribute("vy", vy * -1);
                 vy *= -1;
             }
@@ -72,17 +73,17 @@ var moveCircles = function(event) {
             circle.setAttribute( "cy", y );
 
             if(x == (width / 2)) {
-                r = parseInt(circle.getAttribute("r") / 2);
-                if (r <= 5) {
+                r = r/2;
+                if (r <= 2) {
                     svg.removeChild(circle);
-                    i++;
+                    i--;
                 }
                 else {
-                    var newCircle = makeCircle(r, x + vx, y + vy);
+                    var newCircle = makeCircle(r, x - vx, y - vy);
                     newCircle.setAttribute("vx", vx * -1);
                     newCircle.setAttribute("vy", vy * -1);
-                    circle.setAttribute("r", r );
                     svg.appendChild(newCircle);
+                    circle.setAttribute("r", r);
                 }
             }
         }
